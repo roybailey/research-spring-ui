@@ -1,0 +1,26 @@
+= SpringBoot UI
+:toc:
+
+
+== Motivation
+
+To stand up a working sample of various UI frameworks bundled within a Spring application.
+
+
+== Getting Started
+
+> run `mvn clean install` to build application.
+
+
+== Many Thanks
+
+* http://neo4j.com/[Neo4j Graph Database]
+* http://projects.spring.io/spring-data/[Spring Data]
+* https://github.com/FasterXML/jackson[Jackson JSon/XML]
+* https://github.com/OpenFeign/feign[Open Feign Http Client Framework]
+* https://projectlombok.org/[Project Lombok]
+* http://modelmapper.org/[Modal Mapper]
+* http://joel-costigliola.github.io/assertj/[AssertJ]
+* https://github.com/google/guava[Guava]
+* https://www.slf4j.org/[Simple Logging Facade for Java (SLF4J)]
+* https://logback.qos.ch/[LogBack]

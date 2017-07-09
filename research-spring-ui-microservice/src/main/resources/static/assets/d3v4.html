@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="./d3/4.9.1/d3.min.js" type="text/JavaScript"></script>
+    <style>
+
+    .link {
+      stroke: #93C464;
+    }
+
+    marker {
+      fill: #93C464;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="viz">
+      <svg style="width:1000;height:800px;" ></svg>
+    </div>
+    <script>
+      var roleScale = d3.scaleOrdinal()
+        .domain(["movie", "actor", "manager"])
+        .range(["#75739F", "#41A368", "#FE9922"]);
+
+
+      d3.json("/api/movie?format=d3", function(error, graph) {
+          if (error) return;
+          createForceLayout(graph.nodes, graph.links);
+      });
+
+
+      function createForceLayout(nodes,edges) {
+        var marker = d3.select("svg").append('defs')
+          .append('marker')
+            .attr("id", "Triangle")
+            .attr("refX", 24)
+            .attr("refY", 12)
+            .attr("markerUnits", 'userSpaceOnUse')
+            .attr("markerWidth", 24)
+            .attr("markerHeight", 36)
+            .attr("orient", 'auto')
+          .append('path')
+            .attr("d", 'M 0 0 24 12 0 24 6 12');
+
+        var nodeHash = {};
+        nodes.forEach(node => {
+          nodeHash[node.id] = node;
+        });
+        
+        edges.forEach(edge => {
+          edge.weight = parseInt(edge.weight);
+          edge.source = nodeHash[edge.source];
+          edge.target = nodeHash[edge.target];
+        });
+        
+        var linkForce = d3.forceLink();
+        
+        var simulation = d3.forceSimulation()
+          .force("charge", d3.forceManyBody().strength(-40))
+          .force("center", d3.forceCenter().x(500).y(400))
+          .force("link", linkForce)
+          .nodes(nodes)
+          .on("tick", forceTick);
+        
+        simulation.force("link").links(edges);
+        
+        d3.select("svg").selectAll("line.link")
+          .data(edges, d => `${d.source.id}-${d.target.id}`)
+          .enter()
+          .append("line")
+            .attr("class", "link")
+            .style("opacity", .5)
+            .style("stroke-width", d => 1+d.weight);
+        
+        d3.selectAll("line").attr("marker-end", "url(#Triangle)");
+
+        var nodeEnter = d3.select("svg").selectAll("g.node")
+          .data(nodes, d => d.id)
+          .enter()
+          .append("g")
+            .attr("class", "node");
+        nodeEnter.append("circle")
+          .attr("r", d => 10)
+          .style("fill", d => roleScale(d.label));
+        nodeEnter.append("text")
+          .style("text-anchor", "middle")
+          .attr("y", 15)
+          .text(d => d.title);
+
+
+        var drag = d3.drag();
+
+        drag
+          .on("drag", dragging);
+
+        d3.selectAll("g.node").call(drag);
+
+        function dragging(d) {
+          var e = d3.event;
+          d.fx = e.x;
+          d.fy = e.y;
+          if (simulation.alpha() < 0.1) {
+            simulation.alpha(0.1);
+            simulation.restart();
+          }
+        }
+
+
+        function forceTick() {
+          d3.selectAll("line.link")
+            .attr("x1", d => d.source.x)
+            .attr("x2", d => d.target.x)
+            .attr("y1", d => d.source.y)
+            .attr("y2", d => d.target.y);
+          d3.selectAll("g.node")
+            .attr("transform", d => `translate(${d.x},${d.y})`);
+        }
+      }
+    </script>
+  </body>
+</html>
