@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -42,15 +43,7 @@ public class MovieController {
             List<Movie> movieList = StreamSupport.stream(movies.spliterator(), false)
                     .collect(Collectors.toList());
             if ("d3".equalsIgnoreCase(format)) {
-                List<Map<String, Object>> d3ready = movieList.stream()
-                        .map((movie) -> ImmutableMap.of(
-                                "id", movie.getId(),
-                                "movie", movie.getTitle(),
-                                "cast", movie.getActors().stream()
-                                        .map(Person::getName)
-                                        .collect(Collectors.toList())))
-                        .collect(Collectors.toList());
-                response = ResponseEntity.ok(toD3Format(d3ready.iterator()));
+                response = ResponseEntity.ok(toD3Format(movieList.iterator()));
             } else {
                 response = ResponseEntity.ok(movieList);
             }
@@ -87,37 +80,53 @@ public class MovieController {
     }
 
 
-    private Map<String, Object> toD3Format(Iterator<Map<String, Object>> result) {
+    private Map<String, Object> toD3Format(Iterator<Movie> movies) {
         List<Map<String, Object>> nodes = new ArrayList<Map<String, Object>>();
-        List<Map<String, Object>> rels = new ArrayList<Map<String, Object>>();
-        Map<String, Integer> actors = new HashMap<>();
-        int i = 0;
-        while (result.hasNext()) {
-            Map<String, Object> row = result.next();
+        List<Map<String, Object>> links = new ArrayList<Map<String, Object>>();
+        Map<Long, Integer> people = new HashMap<>();
+        AtomicInteger index = new AtomicInteger();
+        while (movies.hasNext()) {
+            Movie row = movies.next();
             nodes.add(ImmutableMap.of(
-                    "id", i,
-                    "title", row.get("movie"),
+                    "id", index.get(),
+                    "title", row.getTitle(),
                     "label", "movie"));
-            int target = i;
-            i++;
-            for (Object name : (Collection) row.get("cast")) {
-                Integer source = actors.get(name);
+            int target = index.getAndIncrement();
+            row.getActors().forEach((actor) -> {
+                Integer source = people.get(actor.getId());
                 if (source == null) {
-                    source = i++;
-                    Map<String, Object> actor = ImmutableMap.of(
+                    source = index.getAndIncrement();
+                    Map<String, Object> actorD3Node = ImmutableMap.of(
                             "id", source,
-                            "title", name,
+                            "title", actor.getName(),
                             "label", "actor");
-                    nodes.add(actor);
-                    actors.put(String.valueOf(name), source);
+                    nodes.add(actorD3Node);
+                    people.put(actor.getId(), source);
                 }
-                rels.add(ImmutableMap.of(
+                links.add(ImmutableMap.of(
                         "source", source,
                         "target", target,
-                        "weight", Math.min(3, ((Collection) row.get("cast")).size())));
-            }
+                        "type", "actedIn",
+                        "weight", Math.min(3, row.getActors().size())));
+            });
+            row.getDirectors().forEach((director) -> {
+                Integer source = people.get(director.getId());
+                if (source == null) {
+                    source = index.getAndIncrement();
+                    Map<String, Object> actorD3Node = ImmutableMap.of(
+                            "id", source,
+                            "title", director.getName(),
+                            "label", "director");
+                    nodes.add(actorD3Node);
+                    people.put(director.getId(), source);
+                }
+                links.add(ImmutableMap.of(
+                        "source", source,
+                        "target", target,
+                        "type", "directed"));
+            });
         }
-        return ImmutableMap.of("nodes", nodes, "links", rels);
+        return ImmutableMap.of("nodes", nodes, "links", links);
     }
 
 }
