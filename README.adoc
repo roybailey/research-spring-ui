@@ -36,11 +36,10 @@ In that case remove the module from the parent pom or build modules of interest 
 |=======
 | Java Application | Port | Description |
 | `SpringBootNeo4jApplication` | `http://localhost:8090` | the basic micro-service |
-| `SpringBootNashornApplication` | `http://localhost:8091` | the Nashorn rendered UI |
+| `SpringBootThymeLeafApplication` | `http://localhost:8091` | embedded ThymeLeaf template UI |
 | `SpringBootPreactApplication` | `http://localhost:8092` | `preact create` bundled UI |
 | `SpringBootReactApplication` | `http://localhost:8093` | `react-create-app` bundled UI |
-| `SpringBootThymeLeafApplication` | `http://localhost:8094` | embedded ThymeLeaf template UI |
-| `SpringBootVueApplication` | `http://localhost:8095` | embedded Vue template UI |
+| `SpringBootVueApplication` | `http://localhost:8094` | embedded Vue template UI |
 |=======
 
 Note: _The above are all still very much a work-in-progress

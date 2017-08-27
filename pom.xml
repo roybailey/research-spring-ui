@@ -44,7 +44,6 @@
     <modules>
         <module>research-spring-ui-microservice</module>
         <module>research-spring-ui-thymeleaf</module>
-        <module>research-spring-ui-nashorn</module>
         <module>research-spring-ui-preact</module>
         <module>research-spring-ui-react</module>
         <module>research-spring-ui-vue</module>
