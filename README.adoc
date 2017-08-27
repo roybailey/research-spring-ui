@@ -6,10 +6,53 @@
 
 To stand up a working sample of various UI frameworks bundled within a Spring application.
 
+Wanting to run a basic micro-service supporting a json API with a (potentially)
+rich UI that works with the micro-service data.
+
+There are various template engines recommended for Spring (ThymeLeaf being popular),
+so the purpose here is to show how this and some richer and popular SPA (Single Page Applications)
+ frameworks might be bundled into a Spring application.
+
+While some solutions can be built directly into the java code and potentially be supplied
+ data from Java, others need to be isolated npm projects that have their resulting distribution
+ bundles copied into the Spring `resources/static` folder and use `localhost` API calls to obtain data.
+
+Modules are used to isolate and package different solutions.  The `research-spring-ui-microservice`
+is a basic micro-service, serving up an API of Movie data using the Neo4j embedded graph database sample.
+All other modules depend and import this micro-service with the addition of the UI framework of choice
+to show basic bundling, data access, and UI capabilities
+(thus running independently with their own `localhost` API).
+
 
 == Getting Started
 
-> run `mvn clean install` to build application.
+> run `mvn clean install` to build entire application.
+
+Since there are no guarantees on what condition each module might be in,
+regarding maturity and testing, some modules might fail on your machine/setup.
+In that case remove the module from the parent pom or build modules of interest individually.
+
+[width="100%",options="header"]
+|=======
+| Java Application | Port | Description |
+| `SpringBootNeo4jApplication` | `http://localhost:8090` | the basic micro-service |
+| `SpringBootNashornApplication` | `http://localhost:8091` | the Nashorn rendered UI |
+| `SpringBootPreactApplication` | `http://localhost:8092` | `preact create` bundled UI |
+| `SpringBootReactApplication` | `http://localhost:8093` | `react-create-app` bundled UI |
+| `SpringBootThymeLeafApplication` | `http://localhost:8094` | embedded ThymeLeaf template UI |
+| `SpringBootVueApplication` | `http://localhost:8095` | embedded Vue template UI |
+|=======
+
+Note: _The above are all still very much a work-in-progress
+with little more than Hello World samples at the time of writing._
+
+
+== UI Frameworks
+
+* http://www.thymeleaf.org/[ThymeLeaf] Thymeleaf is a modern server-side Java template engine for both web and standalone environments
+* https://facebook.github.io/react/[React] A JavaScript library for building user interfaces
+* https://preactjs.com/[Preact] Fast 3kB alternative to React
+* https://vuejs.org/[Vue] A Progressive JavaScript Framework
 
 
 == Many Thanks

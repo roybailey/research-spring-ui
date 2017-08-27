@@ -1,4 +1,4 @@
-package me.roybailey.springboot.preact;
+package me.roybailey.springboot.vue;
 
 import me.roybailey.springboot.sample.SpringBootNeo4jApplication;
 import org.springframework.boot.SpringApplication;
@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @Import(SpringBootNeo4jApplication.class)
-public class SpringBootPreactApplication {
+public class SpringBootVueApplication {
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(SpringBootPreactApplication.class, args);
+		SpringApplication.run(SpringBootVueApplication.class, args);
 	}
 
 }
