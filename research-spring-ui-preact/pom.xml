@@ -19,7 +19,7 @@
         <webapp.folder>./app</webapp.folder>
         <output.folder>./src/main/resources</output.folder>
         <static.folder>${output.folder}/static</static.folder>
-        <dist.folder>${static.folder}</dist.folder>
+        <dist.folder>${static.folder}/app</dist.folder>
         <npm.command>npm</npm.command>
     </properties>
 
@@ -30,6 +30,12 @@
             <groupId>me.roybailey</groupId>
             <artifactId>research-spring-ui-microservice</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
     </dependencies>

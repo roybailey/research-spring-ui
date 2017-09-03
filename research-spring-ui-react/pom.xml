@@ -19,7 +19,7 @@
         <webapp.folder>./app</webapp.folder>
         <output.folder>./src/main/resources</output.folder>
         <static.folder>${output.folder}/static</static.folder>
-        <dist.folder>${static.folder}</dist.folder>
+        <dist.folder>${static.folder}/app</dist.folder>
         <npm.command>npm</npm.command>
     </properties>
 

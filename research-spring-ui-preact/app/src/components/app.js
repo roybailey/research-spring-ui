@@ -4,8 +4,9 @@ import { Router } from 'preact-router';
 import Header from './header';
 import Home from '../routes/home';
 import Profile from '../routes/profile';
-// import Home from 'async!./home';
-// import Profile from 'async!./profile';
+import Admin from '../routes/admin';
+import Login from '../routes/login';
+
 
 export default class App extends Component {
 	/** Gets fired when the route changes.
@@ -24,6 +25,9 @@ export default class App extends Component {
 					<Home path="/" />
 					<Profile path="/profile/" user="me" />
 					<Profile path="/profile/:user" />
+					<Profile path="/profile/:user" />
+					<Admin path="/admin" />
+					<Login path="/login" />
 				</Router>
 			</div>
 		);
