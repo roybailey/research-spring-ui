@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   withRouter,
+  Redirect,
   Route
 } from 'react-router-dom'
 
@@ -28,6 +29,7 @@ window.fakeAuth = {
   }
 }
 
+
 const Logout = withRouter(({history}) => {
     window.fakeAuth.signout(() => {
         console.log('redirecting to /login with history' +history);
@@ -40,6 +42,20 @@ const Logout = withRouter(({history}) => {
     </div>
     )
 })
+
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (
+    window.fakeAuth.isAuthenticated ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
 
 
 class App extends Component {
@@ -55,7 +71,7 @@ class App extends Component {
                     <Route path="/about" component={About}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/logout" component={Logout}/>
-                    <Route path="/topics" component={Topics}/>
+                    <PrivateRoute path="/topics" component={Topics}/>
                 </div>
             </div>
 
@@ -65,5 +81,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;
