@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink, Link } from 'react-router-dom'
-import { Input, Menu } from 'semantic-ui-react'
+import { Input, Menu, Dropdown } from 'semantic-ui-react'
 
 
 function LoginButton(props) {
@@ -49,6 +49,19 @@ export default class MainMenu extends Component {
             <Input icon='search' placeholder='Search...' />
           </Menu.Item>
           <LoginControl />
+          <Dropdown text='About' className="ui pointing dropdown link item">
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <Link to="/">Home</Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/about">About</Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/topics">Topics</Link>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Menu.Menu>
       </Menu>
     )

@@ -11,10 +11,10 @@ import Footer from './Footer'
 
 import './App.css';
 
-import Home from './content/Home'
-import About from './content/About'
-import Login from './content/Login'
-import Topics from './content/Topics'
+import Home from '../content/Home'
+import About from '../content/About'
+import Login from '../content/Login'
+import Topics from '../content/Topics'
 
 
 window.fakeAuth = {

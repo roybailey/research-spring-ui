@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import './Home.css';
 
@@ -10,7 +11,9 @@ export default () => (
                 Imagine-a-Company
             </h1>
             <h2>Do whatever you want when you want to.</h2>
-            <div className="ui huge primary button">Get Started <i className="right arrow icon"></i></div>
+            <Link to="/topics">
+                <div className="ui huge primary button">Get Started <i className="right arrow icon"></i></div>
+            </Link>
         </div>
     </div>
 )
