@@ -1,36 +1,33 @@
-import React from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+
+import { login } from '../store/user-store'
 
 import './Login.css';
 
 
-class Login extends React.Component {
-  state = {
-    redirectToReferrer: false
-  }
+export class LoginContainer extends Component {
 
-  login = () => {
-    window.fakeAuth.authenticate(() => {
-      this.setState({ redirectToReferrer: true })
+  static propTypes = {
+    login: PropTypes.func.isRequired
+  };
+
+  login = (e) => {
+    e.preventDefault()
+    this.props.login({
+      name: this.refs.email.value,
+      password: this.refs.password.value,
+      isAdmin: false
     })
-  }
+  };
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { redirectToReferrer } = this.state
-
-    if (redirectToReferrer) {
-      return (
-        <Redirect to={from}/>
-      )
-    }
-
     return (
     <div id="LoginBox" className="ui middle aligned center aligned grid">
       <div className="column">
         <h2 className="ui teal image header">
           <div className="content">
-            Log-in to your account
+            Login to your account
           </div>
         </h2>
         <form className="ui large form">
@@ -38,13 +35,13 @@ class Login extends React.Component {
             <div className="field">
               <div className="ui left icon input">
                 <i className="user icon"></i>
-                <input type="text" name="email" placeholder="E-mail address" />
+                <input type="text" name="email" placeholder="Email address" ref="email" />
               </div>
             </div>
             <div className="field">
               <div className="ui left icon input">
                 <i className="lock icon"></i>
-                <input type="password" name="password" placeholder="Password" />
+                <input type="password" name="password" placeholder="Password" ref="password" />
               </div>
             </div>
             <div className="ui fluid large teal submit button" onClick={this.login}>Login</div>
@@ -52,13 +49,11 @@ class Login extends React.Component {
 
           <div className="ui error message"></div>
         </form>
-
       </div>
     </div>
     )
   }
+
 }
 
-
-export default Login;
-
+export default connect(null, { login })(LoginContainer)

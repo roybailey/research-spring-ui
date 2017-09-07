@@ -18,7 +18,7 @@ function LogoutButton(props) {
   );
 }
 
-
+/*
 class LoginControl extends React.Component {
 
   render() {
@@ -34,7 +34,7 @@ class LoginControl extends React.Component {
     return button;
   }
 }
-
+*/
 
 export default class MainMenu extends Component {
 
@@ -44,11 +44,12 @@ export default class MainMenu extends Component {
         <NavLink to="/" exact activeClassName="active" className="item">Home</NavLink>
         <NavLink to="/about" activeClassName="active" className="item">About</NavLink>
         <NavLink to="/topics" activeClassName="active" className="item">Topics</NavLink>
+        <NavLink to="/user" activeClassName="active" className="item">User</NavLink>
+        <NavLink to="/admin" activeClassName="active" className="item">Admin</NavLink>
         <Menu.Menu position='right'>
           <Menu.Item>
             <Input icon='search' placeholder='Search...' />
           </Menu.Item>
-          <LoginControl />
           <Dropdown text='About' className="ui pointing dropdown link item">
             <Dropdown.Menu>
               <Dropdown.Item>
