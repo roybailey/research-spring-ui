@@ -73,10 +73,10 @@ export default reducers;
 // ------------------------------------------------------------
 
 const API_ROOT = "/api/v1";
-const API_MOVIE = API_ROOT + "/movie";
+//const API_MOVIE = API_ROOT + "/movie";
 const API_MOVIE_SEARCH = API_ROOT + "/movie-search";
 const API_MOVIE_UPDATE = API_ROOT + "/movie-update";
-const API_PERSON = API_ROOT + "/person";
+//const API_PERSON = API_ROOT + "/person";
 
 const shouldFetchMovies = (state, filter) => {
   const movies = state.get('movie').movieReducer

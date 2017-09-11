@@ -2,6 +2,7 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/app",
   "dependencies": {
     "immutable": "^3.8.1",
     "moment": "^2.18.1",

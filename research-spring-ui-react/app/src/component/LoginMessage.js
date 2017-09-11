@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  withRouter,
-  Redirect,
-  Route
-} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 
 export default withRouter(({history}) => {

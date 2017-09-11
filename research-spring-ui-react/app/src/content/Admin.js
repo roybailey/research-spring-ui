@@ -1,7 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 
-export default ({ authData }) => (
+const Admin = ({ user }) => (
     <div className="ui vertical stripe segment">
         <div className="ui middle aligned stackable grid container">
             <div className="row">
@@ -12,9 +13,12 @@ export default ({ authData }) => (
             </div>
             <div className="row">
                 <div className="center aligned column">
-                    <a className="ui huge button">You are logged in with Admin role as ${authData.name}</a>
+                    <a className="ui huge button">You are logged in with Admin role as {user.get('username')}</a>
                 </div>
             </div>
         </div>
     </div>
 )
+
+
+export default connect(state => ({ user: state.getIn(['user']) }))(Admin)

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 
-const User = ({ authData }) => (
+const User = ({ user }) => (
     <div className="ui vertical stripe segment">
         <div className="ui middle aligned stackable grid container">
             <div className="row">
@@ -13,7 +13,7 @@ const User = ({ authData }) => (
             </div>
             <div className="row">
                 <div className="center aligned column">
-                    <a className="ui huge button">You are logged as User {authData.get('name')}</a>
+                    <a className="ui huge button">You are logged in as User {user.get('username')}</a>
                 </div>
             </div>
         </div>
@@ -21,4 +21,4 @@ const User = ({ authData }) => (
 )
 
 
-export default connect(state => ({ authData: state.getIn(['user','data']) }))(User)
+export default connect(state => ({ user: state.getIn(['user']) }))(User)

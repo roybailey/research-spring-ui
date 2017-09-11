@@ -1,30 +1,25 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { login } from '../store/user-store'
+import { loginRequest } from '../store/user-store'
 
 import './Login.css';
 
 
 export class LoginContainer extends Component {
 
-  static propTypes = {
-    login: PropTypes.func.isRequired
-  };
-
   login = (e) => {
     e.preventDefault()
-    this.props.login({
-      name: this.refs.email.value,
-      password: this.refs.password.value,
-      isAdmin: false
+    this.props.loginRequest({
+      username: this.refs.email.value,
+      password: this.refs.password.value
     })
   };
 
   render() {
     return (
     <div id="LoginBox" className="ui middle aligned center aligned grid">
-      <div className="column">
+      <div className="column LoginColumn">
         <h2 className="ui teal image header">
           <div className="content">
             Login to your account
@@ -56,4 +51,4 @@ export class LoginContainer extends Component {
 
 }
 
-export default connect(null, { login })(LoginContainer)
+export default connect(null, { loginRequest })(LoginContainer)

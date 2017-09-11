@@ -8,8 +8,8 @@ import Loading from './component/LoginMessage'
 const locationHelper = locationHelperBuilder({})
 
 const userIsAuthenticatedDefaults = {
-  authenticatedSelector: state => state.getIn(['user','data']) !== null,
-  authenticatingSelector: state => state.getIn(['user','isLoading']),
+  authenticatedSelector: state => state.getIn(['user','isAuthenticated']),
+  authenticatingSelector: state => state.getIn(['user','isFetching']),
   wrapperDisplayName: 'UserIsAuthenticated'
 }
 
@@ -24,14 +24,14 @@ export const userIsAuthenticatedRedir = connectedRouterRedirect({
 export const userIsAdminRedir = connectedRouterRedirect({
   redirectPath: '/',
   allowRedirectBack: false,
-  authenticatedSelector: state => state.getIn(['user','data']) !== null && state.getIn(['user','data','isAdmin']),
-  predicate: user => user.isAdmin,
+  authenticatedSelector: state => state.getIn(['user','isAuthenticated']) && state.getIn(['user','isAdmin']),
+  predicate: user => user.get('isAdmin'),
   wrapperDisplayName: 'UserIsAdmin'
 })
 
 const userIsNotAuthenticatedDefaults = {
   // Want to redirect the user when they are done loading and authenticated
-  authenticatedSelector: state => state.getIn(['user','data']) === null && state.getIn(['user','isLoading']) === false,
+  authenticatedSelector: state => !state.getIn(['user','isAuthenticated']) && state.getIn(['user','isFetching']) === false,
   wrapperDisplayName: 'UserIsNotAuthenticated'
 }
 
@@ -39,6 +39,6 @@ export const userIsNotAuthenticated = connectedAuthWrapper(userIsNotAuthenticate
 
 export const userIsNotAuthenticatedRedir = connectedRouterRedirect({
   ...userIsNotAuthenticatedDefaults,
-  redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/protected',
+  redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/login',
   allowRedirectBack: false
 })

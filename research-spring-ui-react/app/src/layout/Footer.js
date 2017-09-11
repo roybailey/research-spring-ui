@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { userIsAuthenticated } from '../auth'
 import { connect } from 'react-redux'
-import { logout } from '../store/user-store'
+import { logoutRequest } from '../store/user-store'
 
 
 const LogoutLink = userIsAuthenticated(({ logout }) => (
@@ -11,12 +11,12 @@ const LogoutLink = userIsAuthenticated(({ logout }) => (
 
 //    <button onClick={() => { history.push('/logout') }}>Sign out</button>
 
-const LoggedInMessage = ({ authData }) => {
-  let user = (authData)? authData.toJS() : null;
+const LoggedInMessage = ({ user }) => {
+  user = (user)? user.toJS() : null;
   console.log((user)? JSON.stringify(user): 'no auth data');
-  return user? (
+  return user && user.isAuthenticated? (
     <p>
-      Welcome! You are logged in as {user.name}
+      Welcome! You are logged in as {user.username}
     </p>
   ) : (
     <p>You are not logged in.</p>
@@ -24,7 +24,7 @@ const LoggedInMessage = ({ authData }) => {
 }
 
 
-const Footer = ({ authData, logout }) => (
+const Footer = ({ user, logoutRequest }) => (
     <div className="ui inverted vertical footer segment">
         <div className="ui container">
             <div className="ui stackable inverted divided equal height stackable grid">
@@ -46,12 +46,12 @@ const Footer = ({ authData, logout }) => (
                 </div>
                 <div className="ten wide column">
                     <h4 className="ui inverted header">Footer Header</h4>
-                    <LoggedInMessage authData={authData} />
-                    <LogoutLink logout={logout}/>
+                    <LoggedInMessage user={user} />
+                    <LogoutLink logout={logoutRequest}/>
                 </div>
             </div>
         </div>
     </div>
 )
 
-export default connect(state => ({ authData: state.getIn(['user','data']) }), { logout })(Footer)
+export default connect(state => ({ user: state.getIn(['user']) }), { logoutRequest })(Footer)

@@ -3,15 +3,11 @@ import { connect } from 'react-redux'
 import {
   BrowserRouter as Router,
   withRouter,
-  Redirect,
-  NavLink,
   Route
 } from 'react-router-dom'
 
-import { logout } from '../store/user-store'
-
 import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir,
-         userIsAuthenticated, userIsNotAuthenticated } from '../auth'
+         userIsAuthenticated, /*userIsNotAuthenticated*/ } from '../auth'
 
 import MainMenu from './MainMenu';
 import Footer from './Footer'
@@ -26,13 +22,6 @@ import UserPage from '../content/User'
 import AdminPage from '../content/Admin'
 
 
-const getUserName = user => {
-  if (user.get('data')) {
-    return `Welcome ${user.getIn(['data','name'])}`
-  }
-  return `Not logged in`
-}
-
 // Need to apply the hocs here to avoid applying them inside the render method
 const Login = userIsNotAuthenticatedRedir(LoginPage)
 const User = userIsAuthenticatedRedir(UserPage)
@@ -40,9 +29,7 @@ const Admin = userIsAuthenticatedRedir(userIsAdminRedir(AdminPage))
 
 // Only show login when the user is not logged in and logout when logged in
 // Could have also done this with a single wrapper and `FailureComponent`
-const UserName = ({ user }) => (<div className='ui label'>{getUserName(user)}</div>)
-const LoginLink = userIsNotAuthenticated(() => <NavLink activeClassName="active" to="/login">Login</NavLink>)
-const LogoutLink = userIsAuthenticated(({ logout }) => (
+const LoggedOut = userIsAuthenticated(() => (
     <div>
         <p>You are now logged out.</p>
     </div>
@@ -51,16 +38,16 @@ const LogoutLink = userIsAuthenticated(({ logout }) => (
 class App extends Component {
   render() {
     return (
-       <Router>
+       <Router basename="/app">
           <div className="pushable App">
-            <MainMenu />
+            <MainMenu/>
 
             <div className="ui vertical stripe segment">
                 <div className="pusher">
                     <Route exact path="/" component={HomePage}/>
                     <Route path="/about" component={AboutPage}/>
                     <Route path="/login" component={Login}/>
-                    <Route path="/logout" component={LogoutLink}/>
+                    <Route path="/logout" component={LoggedOut}/>
                     <Route path="/user" component={User}/>
                     <Route path="/admin" component={Admin}/>
                     <Route path="/topics" component={TopicPage}/>
@@ -76,8 +63,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
     console.log('-----------');
-    console.log(state.user);
-    console.log(state.get('user'));
+    console.log(state.get('user').toJS());
     console.log('-----------');
     return ({
         user: state.get('user')

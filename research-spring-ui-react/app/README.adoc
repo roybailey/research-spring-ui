@@ -1,0 +1,2 @@
+
+* added `homepage` in `packages.json` to specific root URL
