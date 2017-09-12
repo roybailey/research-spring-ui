@@ -21,7 +21,8 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Controller
-@RequestMapping(path = "/api")
+@CrossOrigin
+@RequestMapping(path = "/api/v1")
 public class MovieController {
 
     private final MovieRepository movieRepository;
@@ -77,6 +78,24 @@ public class MovieController {
     public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
         movieRepository.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+
+    @ResponseBody
+    @GetMapping(path = "/movie-search")
+    public ResponseEntity<?> getMovieSearch(
+            @RequestParam(value = "filter", required = false) String filter
+    ) {
+        ResponseEntity<?> response;
+        try {
+            Iterable<Movie> movies = movieRepository.findAll();
+            response = ResponseEntity.ok(movies);
+        } catch (Exception err) {
+            response = ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Throwables.getStackTraceAsString(err));
+        }
+        return response;
     }
 
 

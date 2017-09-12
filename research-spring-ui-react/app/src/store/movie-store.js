@@ -119,7 +119,7 @@ export const fetchMovies = (filter) => (dispatch) => {
   dispatch(requestMovies(filter));
   return fetch(requestMoviesUrl)
     .then(response => response.json())
-    .then(json => dispatch(receiveMovies(filter, Object.assign({ movies: json.data}, json.meta))))
+    .then(json => dispatch(receiveMovies(filter, Object.assign({ movies: json}, json.meta))))
     .catch(error => dispatch(failureMovies(filter, "Failed to load movies: "+error)));
 }
 

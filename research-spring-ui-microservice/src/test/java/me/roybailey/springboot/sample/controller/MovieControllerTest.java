@@ -45,17 +45,17 @@ public class MovieControllerTest {
     @Headers("Accept: application/json")
     public interface Neo4jMovieApi {
 
-        @RequestLine("GET /api/movie")
+        @RequestLine("GET /api/v1/movie")
         List<Movie> getAllMovies();
 
-        @RequestLine("GET /api/movie/{id}")
+        @RequestLine("GET /api/v1/movie/{id}")
         Movie getMovieById(@Param("id") Long id);
 
         @Headers("Content-Type: application/json")
-        @RequestLine("POST /api/movie")
+        @RequestLine("POST /api/v1/movie")
         Movie saveMovie(Movie movie);
 
-        @RequestLine("DELETE /api/movie/{id}")
+        @RequestLine("DELETE /api/v1/movie/{id}")
         Response deleteMovie(@Param("id") Long id);
     }
 

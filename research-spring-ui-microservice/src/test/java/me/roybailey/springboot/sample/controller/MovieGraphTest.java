@@ -43,7 +43,7 @@ public class MovieGraphTest {
     @Headers("Accept: application/json")
     public interface Neo4jMovieApi {
 
-        @RequestLine("GET /api/movie?format=d3")
+        @RequestLine("GET /api/v1/movie?format=d3")
         Map<String, Object> getMovieGraph();
 
     }

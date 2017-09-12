@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {
   BrowserRouter as Router,
-  withRouter,
   Route
 } from 'react-router-dom'
 
@@ -18,6 +17,7 @@ import HomePage from '../content/Home'
 import AboutPage from '../content/About'
 import LoginPage from '../content/Login'
 import TopicPage from '../content/Topics'
+import MoviePage from '../content/Movies'
 import UserPage from '../content/User'
 import AdminPage from '../content/Admin'
 
@@ -25,6 +25,7 @@ import AdminPage from '../content/Admin'
 // Need to apply the hocs here to avoid applying them inside the render method
 const Login = userIsNotAuthenticatedRedir(LoginPage)
 const User = userIsAuthenticatedRedir(UserPage)
+const Movies = userIsAuthenticatedRedir(MoviePage)
 const Admin = userIsAuthenticatedRedir(userIsAdminRedir(AdminPage))
 
 // Only show login when the user is not logged in and logout when logged in
@@ -51,6 +52,7 @@ class App extends Component {
                     <Route path="/user" component={User}/>
                     <Route path="/admin" component={Admin}/>
                     <Route path="/topics" component={TopicPage}/>
+                    <Route path="/movies" component={MoviePage}/>
                 </div>
             </div>
 
