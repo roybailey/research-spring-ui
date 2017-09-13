@@ -41,6 +41,7 @@ const MainMenu  = ({ user, logoutRequest }) => (
     <NavLink to="/about" activeClassName="active" className="item">About</NavLink>
     <NavLink to="/topics" activeClassName="active" className="item">Topics</NavLink>
     <NavLink to="/movies" activeClassName="active" className="item">Movies</NavLink>
+    <NavLink to="/search" activeClassName="active" className="item">Search</NavLink>
     <NavLink to="/user" activeClassName="active" className="item">User</NavLink>
     <NavLink to="/admin" activeClassName="active" className="item">Admin</NavLink>
     <Menu.Menu position='right'>

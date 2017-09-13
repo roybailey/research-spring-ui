@@ -18,6 +18,7 @@ import AboutPage from '../content/About'
 import LoginPage from '../content/Login'
 import TopicPage from '../content/Topics'
 import MoviePage from '../content/Movies'
+import SearchPage from '../content/MovieSearch'
 import UserPage from '../content/User'
 import AdminPage from '../content/Admin'
 
@@ -53,6 +54,7 @@ class App extends Component {
                     <Route path="/admin" component={Admin}/>
                     <Route path="/topics" component={TopicPage}/>
                     <Route path="/movies" component={MoviePage}/>
+                    <Route path="/search" component={SearchPage}/>
                 </div>
             </div>
 
