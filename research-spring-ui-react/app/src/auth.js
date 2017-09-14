@@ -22,7 +22,7 @@ export const userIsAuthenticatedRedir = connectedRouterRedirect({
 })
 
 export const userIsAdminRedir = connectedRouterRedirect({
-  redirectPath: '/',
+  redirectPath: '/noauth',
   allowRedirectBack: false,
   authenticatedSelector: state => state.getIn(['user','isAuthenticated']) && state.getIn(['user','isAdmin']),
   predicate: user => user.get('isAdmin'),

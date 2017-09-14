@@ -37,6 +37,12 @@ const LoggedOut = userIsAuthenticated(() => (
     </div>
 ))
 
+const NotAuthorized = userIsAuthenticated(() => (
+    <div>
+        <p>You are not authorized to see this content.</p>
+    </div>
+))
+
 class App extends Component {
   render() {
     return (
@@ -50,6 +56,7 @@ class App extends Component {
                     <Route path="/about" component={AboutPage}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/logout" component={LoggedOut}/>
+                    <Route path="/noauth" component={NotAuthorized}/>
                     <Route path="/user" component={User}/>
                     <Route path="/admin" component={Admin}/>
                     <Route path="/topics" component={TopicPage}/>
