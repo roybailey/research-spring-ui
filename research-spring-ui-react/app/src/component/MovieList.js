@@ -1,8 +1,9 @@
 import React from 'react'
+import { Route, Link, withRouter } from 'react-router-dom'
 import { Header, Table, Rating, Menu, Icon } from 'semantic-ui-react'
 
 
-const MovieList = ({movies, total, page, pageSize, pageTotal, fetchMoviePage, rateMovie}) => {
+const MovieList = ({movies, total, page, pageSize, pageTotal, fetchMoviePage, rateMovie, match}) => {
 
 return (
     <Table celled padded>
@@ -21,7 +22,9 @@ return (
             <Table.Row key={'movie-'+idx}>
               <Table.Cell textAlign='center'>{movie.released}</Table.Cell>
               <Table.Cell singleLine>
-                <Header as='h2'>{movie.title}</Header>
+                <Link to={`${match.url}/${movie.id}`}>
+                  <Header as='h2'>{movie.title}</Header>
+                </Link>
               </Table.Cell>
               <Table.Cell>
                 <Rating icon='star' clearable defaultRating={movie.stars||0} maxRating={5} onRate={rateMovie.bind(null,movie.id)}/>
@@ -76,5 +79,5 @@ return (
     </Table>
 )}
 
-export default MovieList
+export default withRouter(MovieList)
 
