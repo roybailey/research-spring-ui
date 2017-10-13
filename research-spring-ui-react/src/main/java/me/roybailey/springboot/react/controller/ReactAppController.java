@@ -5,14 +5,12 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 
 @Slf4j
 @Controller
 @CrossOrigin
 @RequestMapping(path = "/app", produces = MediaType.TEXT_HTML_VALUE)
-public class AppController {
+public class ReactAppController {
 
     /**
      * Return application bundle.

@@ -84,11 +84,14 @@ public class MovieController {
     @ResponseBody
     @GetMapping(path = "/movie-search")
     public ResponseEntity<?> getMovieSearch(
-            @RequestParam(value = "filter", required = false) String filter
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(name = "filter", defaultValue = "") String filter
     ) {
         ResponseEntity<?> response;
         try {
-            Iterable<Movie> movies = movieRepository.findAll();
+            String cypherFilter = movieRepository.cypherLike(filter);
+            Iterable<Movie> movies = movieRepository.findMovies(cypherFilter, pageSize*Math.max(0,page-1), pageSize);
             response = ResponseEntity.ok(movies);
         } catch (Exception err) {
             response = ResponseEntity

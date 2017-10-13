@@ -1,10 +1,51 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form/immutable'
 import { NumberPickerField } from '../component/FormField'
 
 
-let MovieSearchForm = (props) => {
-    const { handleSubmit, onSubmit } = props;
+export class MovieSearchForm extends Component {
+
+  componentWillReceiveProps() {
+    console.log('******************')
+    console.log('componentWillReceiveProps')
+    console.log('******************')
+  }
+
+  shouldComponentUpdate() {
+    console.log('******************')
+    console.log('shouldComponentUpdate')
+    console.log('******************')
+    return true
+  }
+
+  componentWillUpdate() {
+    console.log('******************')
+    console.log('componentWillUpdate')
+    console.log('******************')
+  }
+
+  componentDidUpdate() {
+    console.log('******************')
+    console.log('componentDidUpdate')
+    console.log('******************')
+  }
+
+  componentWillMount(nextProps, nextState) {
+    console.log('******************')
+    console.log('componentWillMount')
+    console.log(nextProps)
+    console.log('******************')
+  }
+
+  componentDidMount(nextProps, nextState) {
+    console.log('******************')
+    console.log('componentDidMount')
+    console.log(nextProps)
+    console.log('******************')
+  }
+
+  render() {
+    const { handleSubmit, onSubmit } = this.props;
     let handleFormSubmit = (formProps) => {
         console.log('MovieSearchForm.handleFormSubmit() '+JSON.stringify(formProps));
         onSubmit({
@@ -18,7 +59,13 @@ let MovieSearchForm = (props) => {
                 <label>Movie Search Form</label>
                 <div className="ui search">
                     <div className="ui icon input">
-                        <Field className="prompt" name="movie" component="input" type="text" placeholder="search for movie..."/>
+                        <Field
+                            className="prompt"
+                            name="movie"
+                            component="input"
+                            type="text"
+                            placeholder="search for movie..."
+                            />
                         <i className="search icon"></i>
                     </div>
                 </div>
@@ -36,9 +83,20 @@ let MovieSearchForm = (props) => {
             </div>
         </form>
     );
+  }
+}
+
+
+function mapStateToProps(state, ownProps) {
+    debugger;
+  return {
+        initialValues: {
+          movie: ownProps.search
+        }
+    }
 }
 
 
 export default MovieSearchForm = reduxForm({
     form: 'movieSearchForm'
-})(MovieSearchForm);
+}, mapStateToProps)(MovieSearchForm);

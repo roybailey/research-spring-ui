@@ -1,14 +1,57 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import queryString from 'query-string'
 import MovieSearchForm from '../component/MovieSearchForm'
 import MovieList from '../component/MovieList'
 import { Loader } from 'semantic-ui-react'
 import { fetchMovies, fetchMoviePage, updateMovieRating, EMPTY_MOVIES, REQUEST_MOVIES } from '../store/movie-store'
 
 
-let MovieSearchPage = (props) => {
-    const { fetchMovies, fetchMoviePage, updateMovieRating, isFetching } = props;
-    const { movies, total, page, pageSize, pageTotal } = props.data;
+export class MovieSearchPage extends Component {
+
+  componentWillReceiveProps() {
+    console.log('******************')
+    console.log('componentWillReceiveProps')
+    console.log('******************')
+  }
+
+  shouldComponentUpdate() {
+    console.log('******************')
+    console.log('shouldComponentUpdate')
+    console.log('******************')
+    return true
+  }
+
+  componentWillUpdate() {
+    console.log('******************')
+    console.log('componentWillUpdate')
+    console.log('******************')
+  }
+
+  componentDidUpdate() {
+    console.log('******************')
+    console.log('componentDidUpdate')
+    console.log('******************')
+  }
+
+  componentWillMount(nextProps, nextState) {
+    console.log('******************')
+    console.log('componentWillMount')
+    console.log(nextProps)
+    console.log('******************')
+  }
+
+  componentDidMount(nextProps, nextState) {
+    console.log('******************')
+    console.log('componentDidMount')
+    console.log(nextProps)
+    console.log('******************')
+  }
+
+  render() {
+    const { fetchMovies, fetchMoviePage, updateMovieRating, isFetching } = this.props;
+    const { movies, total, page, pageSize, pageTotal } = this.props.data;
+    const { match, location } = this.props;
     const isEmpty = movies.length === 0;
     const onSubmit = (event) => {
         console.log('MovieSearchPage.onSubmit() '+event);
@@ -17,9 +60,14 @@ let MovieSearchPage = (props) => {
     const onRateMovie = (movieId, evt, { rating, maxRating }) => {
         updateMovieRating(movieId, rating);
     }
+    console.log(match);
+    console.log(location);
+    let parsed = queryString.parse(location.search);
+    console.log(parsed);
+    let search = parsed.filter;
     return (
         <div className="ui segment">
-            <MovieSearchForm onSubmit={onSubmit} />
+            <MovieSearchForm onSubmit={onSubmit} initialValues={{movie: search}}/>
             <div className="ui divider"/>
             {isEmpty
               ? (isFetching ? <Loader active inline='centered'>Loading...</Loader> : <h2>No results</h2>)
@@ -37,6 +85,7 @@ let MovieSearchPage = (props) => {
             }
         </div>
     );
+  }
 }
 
 const mapStateToProps = state => {
