@@ -1,51 +1,13 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form/immutable'
 import { NumberPickerField } from '../component/FormField'
+import { connect } from 'react-redux'
 
 
 export class MovieSearchForm extends Component {
 
-  componentWillReceiveProps() {
-    console.log('******************')
-    console.log('componentWillReceiveProps')
-    console.log('******************')
-  }
-
-  shouldComponentUpdate() {
-    console.log('******************')
-    console.log('shouldComponentUpdate')
-    console.log('******************')
-    return true
-  }
-
-  componentWillUpdate() {
-    console.log('******************')
-    console.log('componentWillUpdate')
-    console.log('******************')
-  }
-
-  componentDidUpdate() {
-    console.log('******************')
-    console.log('componentDidUpdate')
-    console.log('******************')
-  }
-
-  componentWillMount(nextProps, nextState) {
-    console.log('******************')
-    console.log('componentWillMount')
-    console.log(nextProps)
-    console.log('******************')
-  }
-
-  componentDidMount(nextProps, nextState) {
-    console.log('******************')
-    console.log('componentDidMount')
-    console.log(nextProps)
-    console.log('******************')
-  }
-
   render() {
-    const { handleSubmit, onSubmit } = this.props;
+    const { handleSubmit, onSubmit, initialValues } = this.props;
     let handleFormSubmit = (formProps) => {
         console.log('MovieSearchForm.handleFormSubmit() '+JSON.stringify(formProps));
         onSubmit({
@@ -87,16 +49,10 @@ export class MovieSearchForm extends Component {
 }
 
 
-function mapStateToProps(state, ownProps) {
-    debugger;
-  return {
-        initialValues: {
-          movie: ownProps.search
-        }
-    }
-}
+const ReduxFormMovieSearchForm = reduxForm({
+    form: 'movieSearchForm',
+    enableReinitialize: true // required for incoming changes from menu bar search
+})(MovieSearchForm);
 
 
-export default MovieSearchForm = reduxForm({
-    form: 'movieSearchForm'
-}, mapStateToProps)(MovieSearchForm);
+export default connect()(ReduxFormMovieSearchForm);

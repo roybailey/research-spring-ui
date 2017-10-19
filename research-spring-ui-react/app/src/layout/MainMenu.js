@@ -3,8 +3,8 @@ import { NavLink, Link, withRouter, Redirect } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form/immutable'
 import { Input, Menu, Dropdown } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-//import { track, actions } from 'react-redux-form';
 import { logoutRequest } from '../store/user-store'
+import { fetchMovies } from '../store/movie-store'
 
 
 function LoginButton(props) {
@@ -37,29 +37,14 @@ const LoginControl = ({ user, logout }) => {
 }
 
 
-const handleSearchSubmit1 = function(match) {
-    return function(formProps) {
-        formProps.preventDefault()
-        console.log('MainMenuForm.handleSearchSubmit()');
-        console.log(match);
-        console.log(formProps);
-        console.log('search='+formProps.get('search'));
-        return (
-            <Redirect to={{
-                pathname: '/movie-search?'
-          }}/>)
-    }.bind(this);
-};
-
-
-
-const MainMenu  = ({ handleSubmit, history, user, logoutRequest }) => {
+const MainMenu  = ({ handleSubmit, history, user, logoutRequest, fetchMovies }) => {
 
     const handleSearchSubmit2 = function(formProps) {
         console.log('MainMenuForm.handleSearchSubmit()');
         console.log(formProps);
         let target = '/search?filter='+formProps.get('search');
         console.log(target);
+        fetchMovies({ search: formProps.get('search')});
         return history.replace(target);
     };
 
@@ -102,8 +87,21 @@ const MainMenu  = ({ handleSubmit, history, user, logoutRequest }) => {
   )
 };
 
+
+const mapStateToProps = state => {
+  return { user: state.getIn(['user']) }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        logoutRequest,
+        fetchMovies: text => dispatch(fetchMovies(text))
+    };
+};
+
 const ReduxFormMainMenu = reduxForm({
     form: 'menuSearchForm'
 })(MainMenu);
 
-export default withRouter(connect(state => ({ user: state.getIn(['user']) }), { logoutRequest })(ReduxFormMainMenu))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReduxFormMainMenu))
+

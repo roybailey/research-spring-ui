@@ -107,7 +107,8 @@ export const failureMovies = (filter, error) => ({
 })
 
 export const fetchMovies = (filter) => (dispatch) => {
-  console.log('fetchMovies '+filter);
+  console.log('!!!!! FETCH MOVIES !!!!! '+JSON.stringify(filter));
+  //console.log('fetchMovies '+filter);
   let queryParams = [];
   if(filter) {
     if(filter.search) queryParams.push(`filter=${filter.search}`);
